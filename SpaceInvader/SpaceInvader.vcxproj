@@ -430,6 +430,8 @@
     <ClInclude Include="Dependencies\include\glm\vec4.hpp" />
     <ClInclude Include="Dependencies\include\glm\vector_relational.hpp" />
     <ClInclude Include="Dependencies\include\stb_image.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -572,8 +574,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dependencies\include\glm\detail\glm.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\GLFW\lib-vc2022\glfw3.lib" />
