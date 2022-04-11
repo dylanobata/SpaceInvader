@@ -14,7 +14,6 @@ const unsigned int SCREEN_HEIGHT = 600;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-//void ProcessInput(GLFWwindow* window, float dt);
 
 // SpaceInvader object is responsible for all game logic and rendering
 Game SpaceInvader = Game(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -52,13 +51,11 @@ int main()
         lastFrame = currentFrame;
         glfwPollEvents();
 
-        //ProcessInput(window, deltaTime);
+        SpaceInvader.ProcessInput(deltaTime);
 
-        // draw ship
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         SpaceInvader.Render();
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
     }
@@ -73,7 +70,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-    if (key > 0 && key < 400) {
+    if (key >= 0 && key <= 400) {
         if (action == GLFW_PRESS)
             SpaceInvader.Keys[key] = true;
         else if (action != GLFW_PRESS)
