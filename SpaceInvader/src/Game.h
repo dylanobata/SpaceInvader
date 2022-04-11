@@ -12,7 +12,7 @@ enum GAMESTATE {
 class Game {
 public: 
     GAMESTATE State;
-    bool Keys[400];
+    bool Keys[1040];
     unsigned int Width, Height;
     Game();
     Game(unsigned int width, unsigned int height);

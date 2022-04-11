@@ -11,12 +11,18 @@ Renderer::~Renderer() {
 }
 
 void Renderer::InitRenderData() {
+    /* 
     float vertices[] = {
         385.0f,  580.0f,
         400.0f,  565.0f,
         415.0f,  580.0f
     };
-    
+    */
+    float vertices[] = {
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        2.0f, 0.0f
+    };
     unsigned int VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -34,8 +40,7 @@ void Renderer::Draw(glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 
     this->shader.Use();
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f)); // first translate
-
-    //model = glm::scale(model, glm::vec3(size, 1.0f)); // last scale
+    model = glm::scale(model, glm::vec3(size, 1.0f)); // last scale
 	this->shader.setMat4("model", model);
 
     glBindVertexArray(this->VAO);

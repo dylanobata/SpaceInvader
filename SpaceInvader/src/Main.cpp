@@ -70,10 +70,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-    if (key >= 0 && key <= 400) {
+    if (key >= 0 && key <= 1040) {
         if (action == GLFW_PRESS)
             SpaceInvader.Keys[key] = true;
-        else if (action != GLFW_PRESS)
+        else if (action == GLFW_RELEASE)
             SpaceInvader.Keys[key] = false;
     }
 }
