@@ -11,17 +11,10 @@ Renderer::~Renderer() {
 }
 
 void Renderer::InitRenderData() {
-    /* 
     float vertices[] = {
-        385.0f,  580.0f,
-        400.0f,  565.0f,
-        415.0f,  580.0f
-    };
-    */
-    float vertices[] = {
-        0.0f, 0.0f,
-        1.0f, 1.0f,
-        2.0f, 0.0f
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        2.0f, 1.0f
     };
     unsigned int VBO;
     glGenBuffers(1, &VBO);
