@@ -35,11 +35,9 @@ void Game::Init() {
 }
 
 void Game::Update(float dt) {
-    // update bullet positions
-    for (auto bullet : bullets) {
+    for (int i = 0; i < bullets.size(); i++) {
         float distance = bullet_velocity * dt;
-        bullet.position.y += distance;
-        std::cout << "Update: " << bullet.position.y << " " << bullets.size() << std::endl;
+        bullets[i].position.y -= distance;
     }
 }
 
@@ -73,8 +71,7 @@ void Game::ProcessInput(float dt) {
 
 void Game::Render() {
     renderer->Draw(player->position, player->size, player->rotation, glm::vec3(0.0f, 1.0f, 0.0f));
-    for (auto bullet : bullets) {
-        renderer->Draw(bullet.position, bullet.size, bullet.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
-        std::cout << "Render: " << bullet.position.y << " " << bullets.size() << std::endl;
+    for (int i = 0; i < bullets.size(); i++) {
+        renderer->Draw(bullets[i].position, bullets[i].size, bullets[i].rotation, glm::vec3(0.0f, 1.0f, 0.0f));
     }
 }
