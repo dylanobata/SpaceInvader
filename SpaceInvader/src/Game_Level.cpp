@@ -40,10 +40,11 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> invaderData, unsigne
         {
             if (invaderData[y][x] == 1)
             {
-                glm::vec2 pos(unit_width*x, unit_height*y);
+                float xoffset = 30;
+                float yoffset = 10;
+                glm::vec2 pos(80*x + 30, 60*y);
                 glm::vec2 size(15.0f, 10.0f);
-                this->Invaders.push_back(GameObject(pos, size, 0.0f, false));
-                std::cout << unit_width << " " << unit_height << std::endl;
+                this->Invaders.push_back(GameObject(pos, size, 180.0f, false));
             }
         }
     }
