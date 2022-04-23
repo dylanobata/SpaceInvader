@@ -4,6 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "Game.h"
 #include "Shader.h"

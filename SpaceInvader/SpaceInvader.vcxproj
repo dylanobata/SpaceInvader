@@ -431,6 +431,7 @@
     <ClInclude Include="Dependencies\include\glm\vector_relational.hpp" />
     <ClInclude Include="Dependencies\include\stb_image.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Game_Level.h" />
     <ClInclude Include="src\Game_Object.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
@@ -576,6 +577,7 @@
   <ItemGroup>
     <ClCompile Include="Dependencies\include\glm\detail\glm.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Game_Level.cpp" />
     <ClCompile Include="src\Game_Object.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Main.cpp" />

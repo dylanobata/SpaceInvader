@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Game_Level.h"
+
 enum GAMESTATE {
     GAME_ACTIVE,
     GAME_MENU,
@@ -14,6 +16,9 @@ public:
     GAMESTATE State;
     bool Keys[1040];
     unsigned int Width, Height;
+    std::vector<GameLevel> Levels;
+    unsigned int Level;
+
     Game();
     Game(unsigned int width, unsigned int height);
     ~Game();
