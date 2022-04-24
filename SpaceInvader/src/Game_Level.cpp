@@ -58,6 +58,26 @@ bool GameLevel::IsCompleted()
     return true;
 }
 
+void GameLevel::Update(float dt, float width)
+{
+    if (Invaders[0].position.x <= 0)
+        Invaders[0].direction = false;
+    
+    if (Invaders.back().position.x + Invaders[0].size.x >= width - Invaders[0].size.x)
+        Invaders[0].direction = true;
+
+    float velocity = 50.0f;
+    float distance = velocity * dt;
+    for (unsigned int i = 0; i < Invaders.size(); i++) {
+        if (Invaders[0].direction) { 
+            Invaders[i].position.x -= distance;
+        }
+        else {
+            Invaders[i].position.x += distance;
+        }
+    }
+}
+
 void GameLevel::Draw(Renderer &renderer)
 {
     for (GameObject &invader : this->Invaders)

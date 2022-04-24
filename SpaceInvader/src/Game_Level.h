@@ -12,6 +12,7 @@ class GameLevel {
         void Load(const char* file, unsigned int levelWidth, unsigned int levelHeight);
         bool IsCompleted();
         void Draw(Renderer &renderer);
+        void Update(float dt, float width);
     private:
         void Init(std::vector<std::vector<unsigned int>> invaderData, unsigned int levelWidth, unsigned int levelHeight);
 };

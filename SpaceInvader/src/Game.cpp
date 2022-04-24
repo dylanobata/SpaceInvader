@@ -27,7 +27,7 @@ Game::~Game()
 }
 
 void Game::Init() {
-    shader = new Shader("W:/SpaceInvader/SpaceInvader/res/Shaders/Sprite.vert", "W:/SpaceInvader/SpaceInvader/res/Shaders/Sprite.frag");
+    shader = new Shader("res/Shaders/Sprite.vert", "res/Shaders/Sprite.frag");
     renderer = new Renderer(*shader);
     player = new GameObject(glm::vec2(static_cast<float>(this->Width - 30.0f)/2.0f, 550.0f), glm::vec2(15.0f, 10.0f), 0.0f, false);
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width),
@@ -35,7 +35,7 @@ void Game::Init() {
     renderer->shader.Use();
     renderer->shader.setMat4("projection", projection);
     GameLevel one;
-    one.Load("W:/SpaceInvader/SpaceInvader/res/Levels/one.lvl", this->Width / 2, this->Height / 2);
+    one.Load("res/Levels/one.lvl", this->Width, this->Height);
     this->Levels.push_back(one);
     this->Level = 0;
 }
@@ -45,6 +45,8 @@ void Game::Update(float dt) {
     for (GameObject &bullet : bullets) {
         bullet.position.y -= distance;
     }
+    this->Levels[this->Level].Update(dt, this->Width);
+    
 }
 
 void Game::ProcessInput(float dt) {
@@ -84,6 +86,7 @@ void Game::ProcessInput(float dt) {
 void Game::Render() {
     renderer->Draw(player->position, player->size, player->rotation, glm::vec3(0.0f, 1.0f, 0.0f));
     for (GameObject &bullet : bullets)
+        if (!bullet.destroyed && bullet.position.y < this->Height)
         renderer->Draw(bullet.position, bullet.size, bullet.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
     this->Levels[this->Level].Draw(*renderer);
 }
