@@ -40,13 +40,28 @@ void Game::Init() {
     this->Level = 0;
 }
 
-void Game::Update(float dt) {
-    float distance = BULLET_VELOCITY * dt;
-    for (GameObject &bullet : bullets) {
-        bullet.position.y -= distance;
+bool Game::CheckCollision(GameObject &one, GameObject &two) {
+    bool collisionX = one.position.x + one.size.x >= two.position.x 
+                    && two.position.x + two.size.x >= one.position.x;
+    bool collisionY = one.position.y + one.size.y >= two.position.y 
+                    && two.position.y + two.size.y >= one.position.y;
+    return collisionX && collisionY;
+}
+
+void Game::DoCollisions()
+{
+    for (GameObject &invader : this->Levels[this->Level].Invaders)
+    {
+        if (!invader.destroyed) {
+            for (GameObject &bullet : bullets) {
+                if (CheckCollision(bullet, invader))
+                {
+                    invader.destroyed = true;
+                    bullet.destroyed = true;
+                }
+            }
+        }
     }
-    this->Levels[this->Level].Update(dt, this->Width);
-    
 }
 
 void Game::ProcessInput(float dt) {
@@ -81,6 +96,16 @@ void Game::ProcessInput(float dt) {
             }
         }
     }
+}
+
+void Game::Update(float dt) {
+    float distance = BULLET_VELOCITY * dt;
+    for (GameObject &bullet : bullets) {
+        bullet.position.y -= distance;
+    }
+    this->Levels[this->Level].Update(dt, this->Width);
+    this->DoCollisions();
+    
 }
 
 void Game::Render() {

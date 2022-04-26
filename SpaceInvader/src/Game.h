@@ -26,4 +26,7 @@ public:
     void ProcessInput(float dt);
     void Update(float dt);
     void Render();
+    void DoCollisions();
+private:
+    bool CheckCollision(GameObject &one, GameObject &two);
 };
