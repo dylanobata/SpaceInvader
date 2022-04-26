@@ -12,5 +12,5 @@ class GameObject {
         bool direction; // used for enemy objects to determine whether to move left or right
 
         GameObject() { }
-        GameObject(glm::vec2 pos, glm::vec2 sz, float r, bool destroy, bool dir = true); 
+        GameObject(glm::vec2 pos, glm::vec2 sz, float r, bool destroy = false, bool dir = true); 
 };

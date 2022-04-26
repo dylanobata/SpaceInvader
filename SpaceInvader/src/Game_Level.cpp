@@ -42,7 +42,7 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> invaderData, unsigne
             {
                 float xoffset = 30;
                 float yoffset = 10;
-                glm::vec2 pos(80*x + 30, 60*y);
+                glm::vec2 pos(80*x + 60, 60*y);
                 glm::vec2 size(15.0f, 10.0f);
                 this->Invaders.push_back(GameObject(pos, size, 180.0f, false));
             }

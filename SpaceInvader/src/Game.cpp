@@ -29,7 +29,7 @@ Game::~Game()
 void Game::Init() {
     shader = new Shader("res/Shaders/Sprite.vert", "res/Shaders/Sprite.frag");
     renderer = new Renderer(*shader);
-    player = new GameObject(glm::vec2(static_cast<float>(this->Width - 30.0f)/2.0f, 550.0f), glm::vec2(15.0f, 10.0f), 0.0f, false);
+    player = new GameObject(glm::vec2(static_cast<float>(this->Width - 30.0f)/2.0f, 550.0f), glm::vec2(15.0f, 10.0f), 0.0f);
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width),
                                       static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
     renderer->shader.Use();
@@ -71,7 +71,7 @@ void Game::ProcessInput(float dt) {
         if (this->Keys[GLFW_KEY_SPACE]) {
             this->Keys[GLFW_KEY_SPACE] = false; // reset to false evertime space is hit. Otherwise too many bullet objects are made
             if (bullets.size() < MAX_BULLETS) {
-                glm::vec2 bulletPosition = glm::vec2((player->position.x + player->size.x - 0.75f), player->position.y - 5.0f);
+                glm::vec2 bulletPosition = glm::vec2((player->position.x + player->size.x / 2.0f), player->position.y - 5.0f);
                 GameObject bullet = GameObject(bulletPosition, glm::vec2(0.75f, 5.0f), 0.0f, false);
                 bullets.push_back(bullet);
             }

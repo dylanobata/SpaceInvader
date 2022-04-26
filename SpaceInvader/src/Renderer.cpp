@@ -14,7 +14,11 @@ void Renderer::InitRenderData() {
     float vertices[] = {
         0.0f, 1.0f,
         1.0f, 0.0f,
-        2.0f, 1.0f
+        0.0f, 0.0f,
+
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f
     };
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -41,12 +45,9 @@ void Renderer::Draw(glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 
     // then rotate: first translate the center of orgin to the centroid, then rotate about the new COR, then translate back
     // Note: the original center of rotation is centered at the left most vertex (0.0f, 1.0f)
     
-    // centroid of triangle = ( (x1 + x2 + x3)/3 , (y1 + y2 + y3)/3 )
-    float xcentroid = (0.0f + 1.0f + 2.0f) / 3.0f; // x coordinates of vertices from vertices array above
-    float ycentroid = (1.0f + 0.0f + 1.0f) / 3.0f; // y coordinates of vertices from vertices array above
-    model = glm::translate(model, glm::vec3(xcentroid * size.x, ycentroid * size.y, 0.0f));
+    model = glm::translate(model, glm::vec3(0.5*size.x, 0.5* 0.5*size.y, 0.0f));
     model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::translate(model, glm::vec3(-xcentroid * size.x, -ycentroid * size.y, 0.0f));
+    model = glm::translate(model, glm::vec3(-0.5* size.x, -0.5* size.y, 0.0f));
     
     // first scale
     model = glm::scale(model, glm::vec3(size, 1.0f));
@@ -54,6 +55,6 @@ void Renderer::Draw(glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 
 	this->shader.setMat4("model", model);
 
     glBindVertexArray(this->VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
 }
