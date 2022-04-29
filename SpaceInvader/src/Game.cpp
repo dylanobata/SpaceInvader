@@ -10,7 +10,7 @@
 Shader *shader; 
 Renderer *renderer;
 GameObject *player;
-std::vector<GameObject> bullets;
+std::vector<GameObject> bullets, enemyBullets;
 
 const float PLAYER_VELOCITY = 200.0f;
 const float BULLET_VELOCITY = 300.0f;
@@ -34,7 +34,7 @@ void Game::Init() {
                                       static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
     renderer->shader.Use();
     renderer->shader.setMat4("projection", projection);
-    GameLevel one;
+    GameLevel one(this->Width, this->Height);
     one.Load("res/Levels/one.lvl", this->Width, this->Height);
     this->Levels.push_back(one);
     this->Level = 0;
@@ -98,14 +98,22 @@ void Game::ProcessInput(float dt) {
     }
 }
 
-void Game::Update(float dt) {
+void Game::UpdateBulletPosition(float dt)
+{
     float distance = BULLET_VELOCITY * dt;
     for (GameObject &bullet : bullets) {
         bullet.position.y -= distance;
     }
+    this->Levels[this->Level].FillBullets(enemyBullets);
+    for (GameObject &bullet : enemyBullets) {
+        bullet.position.y += distance;
+    }
+}
+
+void Game::Update(float dt) {
+    this->UpdateBulletPosition(dt);
     this->Levels[this->Level].Update(dt, this->Width);
     this->DoCollisions();
-    
 }
 
 void Game::Render() {
@@ -113,5 +121,10 @@ void Game::Render() {
     for (GameObject &bullet : bullets)
         if (!bullet.destroyed && bullet.position.y < this->Height)
         renderer->Draw(bullet.position, bullet.size, bullet.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+    
+    for (GameObject &bullet : enemyBullets)
+        if (!bullet.destroyed && bullet.position.y < this->Height)
+        renderer->Draw(bullet.position, bullet.size, bullet.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+    
     this->Levels[this->Level].Draw(*renderer);
 }

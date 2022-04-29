@@ -8,11 +8,13 @@
 class GameLevel {
     public:
         std::vector<GameObject> Invaders;
-        GameLevel() { }
+        GameLevel(unsigned int levelWidth, unsigned int levelHeight);
         void Load(const char* file, unsigned int levelWidth, unsigned int levelHeight);
         bool IsCompleted();
         void Draw(Renderer &renderer);
         void Update(float dt, float width);
+        void FillBullets(std::vector<GameObject> &enemyBullets);
     private:
-        void Init(std::vector<std::vector<unsigned int>> invaderData, unsigned int levelWidth, unsigned int levelHeight);
+        unsigned int levelWidth, levelHeight;
+        void Init(std::vector<std::vector<unsigned int>> invaderData);
 };

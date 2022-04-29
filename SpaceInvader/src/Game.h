@@ -27,6 +27,8 @@ public:
     void Update(float dt);
     void Render();
     void DoCollisions();
+ 
 private:
     bool CheckCollision(GameObject &one, GameObject &two);
+    void UpdateBulletPosition(float dt);
 };

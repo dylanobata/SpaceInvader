@@ -3,11 +3,15 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <random>
+
+GameLevel::GameLevel(unsigned int width, unsigned int height)
+    : levelWidth(width), levelHeight(height) { }
 
 void GameLevel::Load(const char* file, unsigned int levelWidth, unsigned int levelHeight)
 {
     unsigned int invaderCode;
-    GameLevel level;
+    GameLevel level(levelWidth, levelHeight);
     std::string line;
     std::ifstream fstream(file);
     std::vector<std::vector<unsigned int>> invaderData;
@@ -22,18 +26,16 @@ void GameLevel::Load(const char* file, unsigned int levelWidth, unsigned int lev
             invaderData.push_back(row);
         }
         if (invaderData.size() > 0)
-            this->Init(invaderData, levelWidth, levelHeight);
+            this->Init(invaderData);
     }
 }
 
-void GameLevel::Init(std::vector<std::vector<unsigned int>> invaderData, unsigned int lvlWidth, unsigned int lvlHeight)
+void GameLevel::Init(std::vector<std::vector<unsigned int>> invaderData)
 {
     unsigned int height = invaderData.size();
     unsigned int width = invaderData[0].size();
-    float unit_width =  lvlWidth / static_cast<float>(width);
-    float unit_height = lvlWidth / static_cast<float>(height);
-    std::cout << lvlWidth << std::endl;
-    std::cout << lvlHeight << std::endl;
+    float unit_width =  this->levelWidth / static_cast<float>(width);
+    float unit_height = this->levelWidth / static_cast<float>(height);
     for (unsigned int y = 0; y < height; y++)
     {
         for (unsigned int x = 0; x < width; x++)
@@ -75,6 +77,27 @@ void GameLevel::Update(float dt, float width)
         else {
             Invaders[i].position.x += distance;
         }
+    }
+}
+
+void GameLevel::FillBullets(std::vector<GameObject> &enemyBullets)
+{
+    if (enemyBullets.size() < 20) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> distr(0, Invaders.size()-1);
+        for (int i = 0; i < 20; i++) {
+            int n = distr(gen); 
+            if (!Invaders[n].destroyed) {
+                glm::vec2 bulletPosition = glm::vec2((Invaders[n].position.x + Invaders[n].size.x / 2.0f), Invaders[n].position.y - 5.0f);
+                GameObject bullet = GameObject(bulletPosition, glm::vec2(0.75f, 5.0f), 0.0f, false);
+                enemyBullets.push_back(bullet);
+            }
+        }
+    }
+    else {
+        if (enemyBullets.back().position.y > levelHeight+500)
+            enemyBullets.clear();
     }
 }
 
