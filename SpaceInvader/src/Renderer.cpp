@@ -11,15 +11,17 @@ Renderer::~Renderer() {
 }
 
 void Renderer::InitRenderData() {
-    float vertices[] = {
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 0.0f,
+	float vertices[] = { 
+        // pos      // tex
+        0.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 0.0f, 
 
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f
+        0.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 0.0f
     };
+
     unsigned int VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -27,12 +29,12 @@ void Renderer::InitRenderData() {
     glGenVertexArrays(1, &this->VAO);
     glBindVertexArray(this->VAO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4*sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
 }
 
-void Renderer::Draw(glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color) {
+void Renderer::Draw(Texture2D &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color) {
     // transformations are applied right to left so the last transformation sequentially is actually the first
     // ie 1. scale     2. rotate     3. translate
     
@@ -52,8 +54,14 @@ void Renderer::Draw(glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 
     // first scale
     model = glm::scale(model, glm::vec3(size, 1.0f));
 
-	this->shader.setMat4("model", model);
+	this->shader.SetMatrix4("model", model);
 
+    // render textured quad
+    this->shader.SetVector3f("spriteColor", color);
+
+    glActiveTexture(GL_TEXTURE0);
+    texture.Bind();
+    
     glBindVertexArray(this->VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);

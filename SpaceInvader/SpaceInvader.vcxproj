@@ -434,7 +434,9 @@
     <ClInclude Include="src\Game_Level.h" />
     <ClInclude Include="src\Game_Object.h" />
     <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\Resource_Manager.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\include\glm\detail\func_common.inl" />
@@ -573,6 +575,8 @@
     <None Include="Dependencies\include\glm\gtx\vector_angle.inl" />
     <None Include="Dependencies\include\glm\gtx\vector_query.inl" />
     <None Include="Dependencies\include\glm\gtx\wrap.inl" />
+    <None Include="res\Shaders\Sprite.frag" />
+    <None Include="res\Shaders\Sprite.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dependencies\include\glm\detail\glm.cpp" />
@@ -582,6 +586,10 @@
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Resource_Manager.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\GLFW\lib-vc2022\glfw3.lib" />

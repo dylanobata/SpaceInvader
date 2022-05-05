@@ -4,15 +4,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Texture.h"
 #include "Shader.h"
 
 class Renderer {
 public:
     Renderer(Shader &shader);
     ~Renderer();
-
-    void Draw(glm::vec2 position, glm::vec2 size, float rotate = 0.0f,
+    
+    void Draw(Texture2D &texture, glm::vec2 position, glm::vec2 size, float rotate = 0.0f,
               glm::vec3 color = glm::vec3(0.5f));
+private:
     Shader shader;
     unsigned int VAO;
     void InitRenderData();

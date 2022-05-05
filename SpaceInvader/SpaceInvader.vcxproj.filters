@@ -891,6 +891,12 @@
     <ClInclude Include="src\Game_Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Resource_Manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\include\glm\detail\func_common.inl">
@@ -1301,6 +1307,8 @@
     <None Include="Dependencies\include\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="res\Shaders\Sprite.vert" />
+    <None Include="res\Shaders\Sprite.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dependencies\include\glm\detail\glm.cpp">
@@ -1322,6 +1330,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game_Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resource_Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

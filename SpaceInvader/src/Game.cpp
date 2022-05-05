@@ -1,13 +1,11 @@
 #include "Game.h"
-#include "Shader.h"
-
+#include "Resource_Manager.h"
 #include "Renderer.h"
 #include "Game_Object.h"
 
 #include <iostream>
 #include <vector>
 
-Shader *shader; 
 Renderer *renderer;
 GameObject *player;
 std::vector<GameObject> bullets, enemyBullets;
@@ -21,23 +19,32 @@ Game::Game(unsigned int width, unsigned int height)
 
 Game::~Game()
 {
-    delete shader;
     delete renderer;
     delete player;
 }
 
 void Game::Init() {
-    shader = new Shader("res/Shaders/Sprite.vert", "res/Shaders/Sprite.frag");
-    renderer = new Renderer(*shader);
-    player = new GameObject(glm::vec2(static_cast<float>(this->Width - 30.0f)/2.0f, 550.0f), glm::vec2(15.0f, 10.0f), 0.0f);
+    ResourceManager::LoadShader("res/Shaders/Sprite.vert", "res/Shaders/Sprite.frag", nullptr, "sprite");
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width),
                                       static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
-    renderer->shader.Use();
-    renderer->shader.setMat4("projection", projection);
-    GameLevel one(this->Width, this->Height);
+
+    ResourceManager::GetShader("sprite").Use().SetInteger("image", 0);
+    ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
+    // set render-specific controls
+    Shader spriteShader = ResourceManager::GetShader("sprite");
+    renderer = new Renderer(spriteShader);
+
+    // Player object
+    ResourceManager::LoadTexture("res/Textures/laserBullet.png", true, "bullet");
+    ResourceManager::LoadTexture("res/Textures/shuttle2.png", true, "player");
+	player = new GameObject(glm::vec2(static_cast<float>(this->Width - 30.0f)/2.0f, 550.0f), glm::vec2(15.0f, 10.0f),
+                            ResourceManager::GetTexture("player"));
+	// Game Level	
+	GameLevel one(this->Width, this->Height);
     one.Load("res/Levels/one.lvl", this->Width, this->Height);
     this->Levels.push_back(one);
     this->Level = 0;
+    
 }
 
 bool Game::CheckCollision(GameObject &one, GameObject &two) {
@@ -50,6 +57,7 @@ bool Game::CheckCollision(GameObject &one, GameObject &two) {
 
 void Game::DoCollisions()
 {
+    // check if invaders are hit
     for (GameObject &invader : this->Levels[this->Level].Invaders)
     {
         if (!invader.destroyed) {
@@ -60,6 +68,13 @@ void Game::DoCollisions()
                     bullet.destroyed = true;
                 }
             }
+        }
+    }
+    // check if player is hit
+    for (GameObject &bullet : enemyBullets){
+        if (CheckCollision(*player, bullet)) {
+            player->destroyed = true;
+            bullet.destroyed = true;
         }
     }
 }
@@ -87,7 +102,7 @@ void Game::ProcessInput(float dt) {
             this->Keys[GLFW_KEY_SPACE] = false; // reset to false evertime space is hit. Otherwise too many bullet objects are made
             if (bullets.size() < MAX_BULLETS) {
                 glm::vec2 bulletPosition = glm::vec2((player->position.x + player->size.x / 2.0f), player->position.y - 5.0f);
-                GameObject bullet = GameObject(bulletPosition, glm::vec2(0.75f, 5.0f), 0.0f, false);
+                GameObject bullet = GameObject(bulletPosition, glm::vec2(2.0f, 5.0f), ResourceManager::GetTexture("bullet"));
                 bullets.push_back(bullet);
             }
             else { // check to see if last bullet shot is off screen before clearing
@@ -117,14 +132,17 @@ void Game::Update(float dt) {
 }
 
 void Game::Render() {
-    renderer->Draw(player->position, player->size, player->rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+    if (!player->destroyed) {
+        renderer->Draw(player->Sprite, player->position, player->size, player->rotation, player->color);
+    }
+
     for (GameObject &bullet : bullets)
         if (!bullet.destroyed && bullet.position.y < this->Height)
-        renderer->Draw(bullet.position, bullet.size, bullet.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+        renderer->Draw(bullet.Sprite, bullet.position, bullet.size, bullet.rotation, bullet.color);
     
     for (GameObject &bullet : enemyBullets)
         if (!bullet.destroyed && bullet.position.y < this->Height)
-        renderer->Draw(bullet.position, bullet.size, bullet.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+        renderer->Draw(bullet.Sprite, bullet.position, bullet.size, bullet.rotation, bullet.color);
     
     this->Levels[this->Level].Draw(*renderer);
 }
