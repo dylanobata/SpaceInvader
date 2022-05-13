@@ -8,5 +8,5 @@ This is my modification on the classic video game **Space Invaders**.
 
 # Gameplay
 
-Use the **a** key or the left arrow key to move left, the **d** key or the right arrow key to move right, and the space bar to shoot.
+Use the **a** key or the left arrow key to move left, the **d** key or the right arrow key to move right, and the space bar to shoot. The level is completed once you destroy all the invaders. 
 
