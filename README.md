@@ -1,6 +1,6 @@
 # Space Invaders
 
-This is my modification on the classic video game **Space Invaders**.
+This is my modification to the classic video game **Space Invaders**.
 
 <p align="center">
   <img src="https://github.com/dylanobata/SpaceInvader/blob/master/ezgif.com-gif-maker.gif" alt="animated" />
