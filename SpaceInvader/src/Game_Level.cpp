@@ -35,19 +35,17 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> invaderData)
 {
     unsigned int height = invaderData.size();
     unsigned int width = invaderData[0].size();
-    float unit_width =  this->levelWidth / static_cast<float>(width);
-    float unit_height = this->levelWidth / static_cast<float>(height);
     for (unsigned int y = 0; y < height; y++)
     {
         for (unsigned int x = 0; x < width; x++)
         {
             if (invaderData[y][x] == 1)
             {
-                float xoffset = 30;
-                float yoffset = 10;
-                glm::vec2 pos(80*x + 60, 60*y);
+                float xoffset = 60;
+                float yoffset = -250; // starts invaders off outside of screen
+                glm::vec2 pos(80*x + xoffset, 60*y + yoffset);
                 glm::vec2 size(15.0f, 10.0f);
-                this->Invaders.push_back(GameObject(pos, size, ResourceManager::GetTexture("player")));
+                Invaders.push_back(GameObject(pos, size, ResourceManager::GetTexture("player")));
             }
         }
     }
@@ -70,7 +68,7 @@ void GameLevel::Update(float dt, float width)
         Invaders[0].direction = true;
 
     float xvelocity = 50.0f;
-    float yvelocity = 5.0f;
+    float yvelocity = 10.0f;
     float xdistance = xvelocity * dt;
     float ydistance = yvelocity * dt;
     for (unsigned int i = 0; i < Invaders.size(); i++) {
@@ -95,21 +93,26 @@ void GameLevel::FillBullets(std::vector<GameObject> &enemyBullets)
             int n = distr(gen); 
             if (!Invaders[n].destroyed) {
                 glm::vec2 bulletPosition = glm::vec2((Invaders[n].position.x + Invaders[n].size.x / 2.0f), Invaders[n].position.y - 5.0f);
-                GameObject bullet = GameObject(bulletPosition, glm::vec2(4.0f, 5.0f), ResourceManager::GetTexture("bullet"));
+                GameObject bullet = GameObject(bulletPosition, glm::vec2(20.0f, 20.0f), ResourceManager::GetTexture("bullet"));
                 enemyBullets.push_back(bullet);
             }
         }
     }
     else {
-        int randomOffset = 500;
-        if (enemyBullets.back().position.y > levelHeight+randomOffset)
+        const int offset = 500;
+        if (enemyBullets.back().position.y > levelHeight + offset)
             enemyBullets.clear();
     }
 }
 
 void GameLevel::Draw(Renderer &renderer)
 {
-    for (GameObject &invader : this->Invaders)
+    for (GameObject &invader : Invaders)
         if (!invader.destroyed)
             renderer.Draw(invader.Sprite, invader.position, invader.size, invader.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+}
+
+void GameLevel::Clear()
+{
+    Invaders.clear();
 }

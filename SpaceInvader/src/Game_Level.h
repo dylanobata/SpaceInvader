@@ -14,6 +14,7 @@ class GameLevel {
         void Draw(Renderer &renderer);
         void Update(float dt, float width);
         void FillBullets(std::vector<GameObject> &enemyBullets);
+        void Clear();
     private:
         unsigned int levelWidth, levelHeight;
         void Init(std::vector<std::vector<unsigned int>> invaderData);

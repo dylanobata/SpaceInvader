@@ -6,19 +6,17 @@
 #include "Game_Level.h"
 
 enum GAMESTATE {
+    GAME_START,
     GAME_ACTIVE,
     GAME_MENU,
-    GAME_WIN
+    GAME_WIN,
+    GAME_OVER
 };
 
 class Game {
 public: 
-    GAMESTATE State;
     bool Keys[1040];
-    unsigned int Width, Height;
-    std::vector<GameLevel> Levels;
-    unsigned int Level;
-
+    
     Game();
     Game(unsigned int width, unsigned int height);
     ~Game();
@@ -29,6 +27,11 @@ public:
     void DoCollisions();
  
 private:
+    GAMESTATE State;
+    unsigned int Width, Height;
+    std::vector<GameLevel> Levels;
+    unsigned int Level;
+    void ResetLevel();
     bool CheckCollision(GameObject &one, GameObject &two);
     void UpdateBulletPosition(float dt);
 };

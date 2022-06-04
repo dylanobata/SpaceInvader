@@ -11,7 +11,7 @@ Renderer::~Renderer() {
 }
 
 void Renderer::InitRenderData() {
-	float vertices[] = { 
+	float vertices[] = {
         // pos      // tex
         0.0f, 1.0f, 0.0f, 1.0f,
         1.0f, 0.0f, 1.0f, 0.0f,

@@ -4,8 +4,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
-#include <chrono>
-#include <thread>
 
 #include "Game.h"
 #include "Shader.h"
@@ -20,6 +18,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 // SpaceInvader object is responsible for all game logic and rendering
 Game SpaceInvader = Game(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+/*
+In: None
+Out: None
+Function: Responsible for setting up platform specific game window via GLFW, initalizing opengl via GLAD,
+          and main game loop: 1. Check for input    2. Update Game   3. Render
+*/
 int main()
 {
     glfwInit();
@@ -40,11 +44,12 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float currentFrame = 0.0f;
     float lastFrame = 0.0f;
     float deltaTime = 0.0f;
-
+    
     SpaceInvader.Init();
     while (!glfwWindowShouldClose(window))
     {
